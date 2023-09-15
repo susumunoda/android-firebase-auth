@@ -56,7 +56,9 @@ android {
 }
 
 dependencies {
-
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.susumunoda.android.auth)
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
