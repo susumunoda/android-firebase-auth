@@ -16,4 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Android Firebase Auth"
 include(":app")
-include(":library")
+include(":firebase-auth")
