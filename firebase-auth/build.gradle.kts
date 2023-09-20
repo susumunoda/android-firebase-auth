@@ -1,20 +1,32 @@
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlinAndroid)
+    kotlin("multiplatform")
     `maven-publish`
 }
 
-val releaseVariant = "release"
-publishing {
-    publications {
-        register<MavenPublication>(releaseVariant) {
-            groupId = "com.susumunoda"
-            artifactId = "android-firebase-auth"
-            version = "1.0"
+group = "com.susumunoda.firebase"
+version = "1.0"
 
-            afterEvaluate {
-                from(components[releaseVariant])
+kotlin {
+    androidTarget {
+        publishLibraryVariants("release")
+
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "17"
+            }
+        }
+    }
+
+    ios()
+
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(libs.kotlinx.coroutines)
+                implementation(libs.authcontroller)
+                implementation(libs.gitlive.firebase.auth)
             }
         }
     }
@@ -44,25 +56,4 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-    publishing {
-        singleVariant(releaseVariant) {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
-}
-
-dependencies {
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth.ktx)
-    implementation(libs.susumunoda.android.auth)
-    implementation(libs.core.ktx)
-    implementation(libs.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
 }
