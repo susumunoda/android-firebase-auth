@@ -1,4 +1,4 @@
-package com.susumunoda.android.firebase.auth
+package com.susumunoda.firebase.auth
 
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
